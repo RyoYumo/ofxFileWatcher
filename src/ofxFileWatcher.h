@@ -44,7 +44,7 @@ void watch(ofEventArgs&){
         return time_stamp != last_time_stamp.second ? true : false;
       };
       auto is_any_file_changed = std::any_of(time_stamp_map_.begin(), time_stamp_map_.end(), is_changed);
-      if(b){
+      if(is_any_file_changed){
         ofNotifyEvent(file_change_event_);
       }
     }
