@@ -9,7 +9,7 @@ public:
   template<typename... Args>
   void load(Args&&... args){
     ofAddListener(ofEvents().update, this, &FileWatcher::watch);
-    setTarget(args...);
+    setTargetFiles(args...);
     T::load(std::forward<Args>(args)...);
   }
 
@@ -25,15 +25,15 @@ public:
 
 private:
   template<typename Head, typename... Tails>
-  void setTarget(Head&& head, Tails&&... tails){
+  void setTargetFiles(Head&& head, Tails&&... tails){
     std::string file_name = head;
     if(!file_name.empty()) {
       ofFile file {file_name};
       time_stamp_map_[file_name] = std::filesystem::last_write_time(file);
     }
-    setTarget(tails...);
+    setTargetFiles(tails...);
   }
-  void setTarget(){}
+  void setTargetFiles(){}
 
 
 void watch(ofEventArgs&){
@@ -43,7 +43,7 @@ void watch(ofEventArgs&){
         auto   time_stamp = std::filesystem::last_write_time(file);
         return time_stamp != last_time_stamp.second ? true : false;
       };
-      auto b = std::any_of(time_stamp_map_.begin(), time_stamp_map_.end(), is_changed);
+      auto is_any_file_changed = std::any_of(time_stamp_map_.begin(), time_stamp_map_.end(), is_changed);
       if(b){
         ofNotifyEvent(file_change_event_);
       }
