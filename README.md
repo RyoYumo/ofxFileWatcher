@@ -1,6 +1,6 @@
 # ofxFileWatcher
-## Usage
-```
+## How to use
+```cpp
 using ofShaderWithFileWatcher = ofxFileWatcher<ofShader>;
 using ofImageWithFileWatcher  = ofxFileWatcher<ofIamge>;
 
@@ -20,6 +20,4 @@ void ofApp::setup(){
   ofAddListener(shader.getFileChangeEvent(), this, &ofApp::loadShader); // auto reload
   ofAddListener(image.getFileChangeEvent(), this, &ofApp::loadImage); 
 }
-
-
 ```
